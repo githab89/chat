@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Анонимный Мессенджер</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="theme-<% theme %>">
+
+    <!-- Экран блокировки (Passcode) -->
+    <% ifPasscode %>
+    <div class="passcode-screen" id="lockScreen">
+        <div class="auth-container" style="text-align:center;">
+            <h2>🔒 Введите код-пароль</h2>
+            <p style="font-size:13px; color:#666;">Защита приложения от посторонних глаз</p>
+            <input type="password" id="passcodeInput" placeholder="Введите пароль доступа">
+            <button onclick="checkPasscode()" class="btn-blue">Открыть мессенджер</button>
+            <div id="lockError" style="color:red; font-size:12px; margin-top:5px;"></div>
+        </div>
+    </div>
+    <% /ifPasscode %>
+
+    <!-- Формы Входа / Регистрации -->
+    <% ifNotAuth %>
+    <div style="display: flex; height: 100vh; justify-content: center; align-items: center; width: 100%;">
+        <div class="auth-container">
+            <% ifError %><div class="error"><% error %></div><% /ifError %>
+            <h2>Войти в аккаунт</h2>
+            <form action="/login" method="POST">
+                <input type="text" name="username" placeholder="Логин" required>
+                <input type="password" name="password" placeholder="Пароль" required>
+                <button type="submit" class="btn-blue">Войти</button>
+            </form>
+            <hr>
+            <h3>Регистрация (Без телефона)</h3>
+            <form action="/register" method="POST">
+                <input type="text" name="username" placeholder="Придумайте логин" required>
+                <input type="email" name="email" placeholder="Ваш E-mail" required>
+                <input type="password" name="password" placeholder="Придумайте пароль" required>
+                <div class="captcha-box">Защита от роботов: <% captcha %> = ?</div>
+                <input type="number" name="captcha" placeholder="Ответ на капчу" required>
+                <button type="submit" class="btn-green">Создать аккаунт</button>
+            </form>
+        </div>
+    </div>
+    <% /ifNotAuth %>
+
+    <!-- Основной интерфейс Мессенджера -->
+    <% ifAuth %>
+    <div class="tg-layout">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <span>👤 <% username %></span>
+                <div>
+                    <button onclick="openSettings()">⚙️ Настройки</button>
+                    <a href="/logout">Выйти</a>
+                </div>
+            </div>
+            <div class="new-chat-box">
+                <form action="/new-chat" method="POST">
+                    <input type="email" name="email" placeholder="🔍 Найти чат по Email..." required>
+                </form>
+            </div>
+            <div class="channels-list"><% channels %></div>
+        </div>
+        <div class="chat-area">
+            <div class="chat-header"><% chatHeader %></div>
+            <div class="messages-container" id="msgBox"><% messages %></div>
+            <% ifActiveChat %>
+            <form action="/send-message" method="POST" class="input-panel">
+                <input type="hidden" name="receiver_email" value="<% activeEmail %>">
+                <input type="text" name="message" placeholder="Напишите сообщение..." autocomplete="off" required autofocus>
+                <button type="submit">Отправить</button>
+            </form>
+            <% /ifActiveChat %>
+        </div>
+    </div>
+
+    <!-- Модальное окно Настроек -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <h3>⚙️ Настройки аккаунта</h3>
+            <hr>
+            <form action="/save-settings" method="POST">
+                <label>🎨 Персонализация (Тема):</label>
+                <select name="theme">
+                    <option value="light" <% selLight %>>Светлая тема</option>
+                    <option value="dark" <% selDark %>>Темная тема</option>
+                    <option value="blue" <% selBlue %>>Синяя ностальгия</option>
+                </select>
+                <br><br>
+                <label>🔒 Код-пароль для входа (необязательно):</label>
+                <input type="password" name="passcode" value="<% passcodeValue %>" placeholder="Оставьте пустым, если не нужен">
+                <hr>
+                <button type="submit" class="btn-green">Сохранить</button>
+                <button type="button" onclick="closeSettings()" style="background:#888;">Отмена</button>
+            </form>
+        </div>
+    </div>
+    <% /ifAuth %>
+
+    <script>
+        const m = document.getElementById('msgBox'); if(m) m.scrollTop = m.scrollHeight;
+        function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; }
+        function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
+        
+        const correctPasscode = "<% passcodeValue %>";
+        function checkPasscode() {
+            const input = document.getElementById('passcodeInput').value;
+            if (input === correctPasscode) { document.getElementById('lockScreen').style.display = 'none'; } 
+            else { document.getElementById('lockError').innerText = "Неверный код-пароль!"; }
+        }
+    </script>
+</body>
+</html>

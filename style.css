@@ -1,0 +1,139 @@
+/* Базовые стили */
+body { 
+    font-family: 'Segoe UI', sans-serif; 
+    margin: 0; 
+    padding: 0; 
+    height: 100vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    transition: background 0.3s;
+}
+
+/* ТЕМЫ ОФОРМЛЕНИЯ */
+body.theme-light { background: #e7ebf0; }
+body.theme-dark { background: #0e1621; color: #fff; }
+body.theme-blue { background: #1a2a3a; color: #fff; }
+
+/* Элементы авторизации */
+.auth-container { 
+    background: white; 
+    padding: 30px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+    width: 350px; 
+}
+body.theme-dark .auth-container, body.theme-blue .auth-container {
+    background: #182533;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+h2, h3 { margin: 15px 0 5px 0; color: #333; }
+body.theme-dark h2, body.theme-dark h3, body.theme-blue h2, body.theme-blue h3 { color: #fff; }
+
+input, select { 
+    width: 100%; 
+    padding: 10px; 
+    margin: 8px 0; 
+    border: 1px solid #ccc; 
+    border-radius: 6px; 
+    box-sizing: border-box; 
+}
+body.theme-dark input, body.theme-dark select, body.theme-blue input, body.theme-blue select {
+    background: #24303f;
+    border: 1px solid #2f3e4e;
+    color: white;
+}
+
+button { width: 100%; padding: 11px; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+.btn-blue { background: #2481cc; } 
+.btn-green { background: #28a745; }
+.error { color: #dc3545; font-size: 14px; margin-bottom: 10px; text-align: center; }
+hr { border: 0; border-top: 1px solid #eee; margin: 20px 0; }
+body.theme-dark hr, body.theme-blue hr { border-top: 1px solid #2f3e4e; }
+
+.captcha-box { background: #f7f9fa; border: 1px dashed #28a745; padding: 8px; border-radius: 6px; text-align: center; font-weight: bold; color: #333; }
+
+/* Экран Блокировки (Passcode) */
+.passcode-screen {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+    display: flex; justify-content: center; align-items: center; z-index: 9999;
+}
+
+/* ГЛАВНЫЙ ИНТЕРФЕЙС ЧАТА */
+.tg-layout { 
+    width: 95vw; 
+    height: 90vh; 
+    background: white; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
+    display: flex; 
+    overflow: hidden; 
+}
+body.theme-dark .tg-layout { background: #17212b; }
+body.theme-blue .tg-layout { background: #17212b; }
+
+.sidebar { width: 30%; border-right: 1px solid #e6e6e6; display: flex; flex-direction: column; background: #fff; }
+body.theme-dark .sidebar, body.theme-blue .sidebar { background: #17212b; border-right: 1px solid #101921; }
+
+.chat-area { width: 70%; display: flex; flex-direction: column; background: #f4f4f5; }
+body.theme-dark .chat-area { background: #0e1621; }
+body.theme-blue .chat-area { background: #0f1c2a; }
+
+.sidebar-header { padding: 15px; background: #2481cc; color: white; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+.sidebar-header button { width: auto; background: transparent; margin: 0; padding: 5px; font-size: 13px; }
+.sidebar-header a { color: white; text-decoration: none; font-size: 13px; background: rgba(0,0,0,0.2); padding: 5px 10px; border-radius: 4px; }
+
+.new-chat-box { padding: 10px; border-bottom: 1px solid #eee; background: #f7f9fa; }
+body.theme-dark .new-chat-box, body.theme-blue .new-chat-box { background: #101921; border-bottom: 1px solid #24303f; }
+
+.channels-list { flex: 1; overflow-y: auto; }
+.channel-item { display: block; padding: 15px; color: #333; text-decoration: none; border-bottom: 1px solid #f2f2f2; font-size: 14px; }
+body.theme-dark .channel-item, body.theme-blue .channel-item { color: #fff; border-bottom: 1px solid #24303f; }
+.channel-item:hover { background: #f2f6fa; }
+body.theme-dark .channel-item:hover { background: #202b36; }
+body.theme-blue .channel-item:hover { background: #202b36; }
+.active-chan { background: #4a90e2 !important; color: white !important; }
+
+.chat-header { padding: 15px; background: white; border-bottom: 1px solid #e6e6e6; font-weight: bold; color: #333; }
+body.theme-dark .chat-header, body.theme-blue .chat-header { background: #17212b; color: #fff; border-bottom: 1px solid #101921; }
+
+.messages-container { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.no-chat { margin: auto; color: #888; font-size: 15px; }
+
+/* ПУЗЫРИ СООБЩЕНИЙ */
+.msg-bubble { max-width: 60%; padding: 10px 14px; border-radius: 12px; position: relative; font-size: 14.5px; line-height: 1.4; color: #000; }
+body.theme-dark .msg-bubble, body.theme-blue .msg-bubble { color: #fff; }
+
+.me { background: #effdde; align-self: flex-end; border-top-right-radius: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.07); }
+body.theme-dark .me { background: #2b5278; }
+body.theme-blue .me { background: #2b5278; }
+
+.them { background: white; align-self: flex-start; border-top-left-radius: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.07); }
+body.theme-dark .them { background: #182533; }
+body.theme-blue .them { background: #182533; }
+
+.msg-author { font-weight: bold; color: #2481cc; font-size: 12px; margin-bottom: 3px; }
+.me .msg-author { color: #4fae4e; }
+body.theme-dark .me .msg-author, body.theme-blue .me .msg-author { color: #82b1ff; }
+.msg-time { text-align: right; font-size: 10px; color: #999; margin-top: 4px; }
+
+.input-panel { padding: 15px; background: white; border-top: 1px solid #e6e6e6; display: flex; gap: 10px; }
+body.theme-dark .input-panel, body.theme-blue .input-panel { background: #17212b; border-top: 1px solid #101921; }
+.input-panel input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 6px; outline: none; font-size: 14px; }
+.input-panel button { width: auto; padding: 0 20px; background: #2481cc; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+
+/* МОДАЛЬНОЕ ОКНО НАСТРОЕК */
+.modal {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000;
+}
+.modal-content {
+    background: white; padding: 25px; border-radius: 10px; width: 320px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); color: #333;
+}
+body.theme-dark .modal-content, body.theme-blue .modal-content {
+    background: #182533; color: white;
+}
+.modal-content label { font-size: 13px; font-weight: bold; }
