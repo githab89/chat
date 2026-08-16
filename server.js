@@ -59,7 +59,20 @@ app.get('/', (req, res) => {
         return res.send(html);
     }
 
-    const user = db.prepare('SELECT email, theme, passcode FROM users WHERE username = ?').get(username);
+// 1. Ищем пользователя в базе
+const user = db.prepare('SELECT email, theme, passcode FROM users WHERE username = ?').get(username);
+
+// 2. ДОБАВЛЯЕМ ПРОВЕРКУ (Защита от падения сервера):
+if (!user) {
+    // Если пользователя нет в базе, отправляем ошибку на сайт, чтобы сервер НЕ падал
+    return res.status(404).json({ error: "Пользователь с таким никнеймом не найден!" });
+}
+
+// 3. Если пользователь найден, то этот код сработает без ошибок:
+if (user.passcode === inputPasscode) {
+    // логика успешного входа...
+}
+
     html = html.replace(/<% ifNotAuth %>[\s\S]*<% \/ifNotAuth %>/, '').replace('<% ifAuth %>', '').replace('<% /ifAuth %>', '');
     
     html = user.passcode ? html.replace('<% ifPasscode %>', '').replace('<% /ifPasscode %>', '') : html.replace(/<% ifPasscode %>[\s\S]*<% \/ifPasscode %>/, '');
