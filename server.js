@@ -5,6 +5,9 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
+// ДОБАВЬТЕ ЭТИ СТРОЧКИ В НАЧАЛО ФАЙЛА (после создания переменной app)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const PORT = process.env.PORT || 4000;
 const db = new Database('database.sqlite');
 
