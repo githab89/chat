@@ -136,4 +136,8 @@ app.post('/send-message', (req, res) => {
 
 app.get('/logout', (req, res) => { res.clearCookie('username'); res.redirect('/'); });
 
-app.listen(PORT, () => { console.log(`Сервер запущен на http://localhost:${PORT}`); });
+// ⚠️ Критически важно для работы внутренней сети Render:
+app.listen(PORT, '0.0.0.0', () => { 
+    console.log(`Сервер успешно запущен в облаке на порту ${PORT}`); 
+});
+
